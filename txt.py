@@ -32,7 +32,7 @@ def recommend_outfit(temp, weather, style="casual"):
     return outfit
 
 
-st.title("오늘의 날씨 기반 옷차림 추천👕🧥")
+st.title("오늘의 날씨 기반 옷차림 추천🧥")
 city = st.text_input("도시명을 입력하세요", "Seoul")
 style = st.radio("스타일을 선택하세요", ["casual", "formal", "sporty"])
 
