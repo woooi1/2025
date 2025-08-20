@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import datetime
 
-st.set_page_config(page_title="전체 근육 운동 가이드", layout="wide")
-st.title("💪 전체 근육 운동 가이드")
+st.set_page_config(page_title="완전 운동 루틴", layout="wide")
+st.title("💪 하루 루틴 & 부위별 운동 가이드")
 
-# 운동 데이터: (운동명, 이미지URL, 영상URL, 난이도 팁, 마무리 스트레칭)
+# 운동 데이터
 exercise_data = {
     "승모근": {
         "초급":[("어깨 으쓱하기 10회","https://i.imgur.com/UYiroysl.jpg","https://www.youtube.com/watch?v=IODxDxX7oi4","승모근 긴장 완화","팔 스트레칭 1분")],
@@ -53,14 +53,16 @@ exercise_data = {
 if "log" not in st.session_state:
     st.session_state["log"] = []
 
-# 난이도 선택
-level = st.radio("난이도를 선택하세요", ["초급","중급","고급"])
-st.subheader(f"{level} 전체 근육 운동")
+# 모드 선택
+mode = st.radio("모드 선택", ["하루 루틴","부위별"])
 
-# 모든 부위 운동 표시
-for muscle, exercises in exercise_data.items():
-    st.markdown(f"### {muscle}")
-    for ex, img, video, tip, stretch in exercises[level]:
+# 난이도 선택
+level = st.radio("난이도 선택", ["초급","중급","고급"])
+
+if mode == "부위별":
+    muscle = st.selectbox("운동 부위 선택", list(exercise_data.keys()))
+    st.subheader(f"{muscle} - {level} 운동")
+    for ex, img, video, tip, stretch in exercise_data[muscle][level]:
         completed = st.checkbox(f"{ex} - {tip} (마무리: {stretch})", key=f"{muscle}_{ex}")
         st.image(img, width=300)
         st.video(video)
@@ -69,6 +71,19 @@ for muscle, exercises in exercise_data.items():
             if not any(log['날짜']==today and log['운동']==ex for log in st.session_state["log"]):
                 st.session_state["log"].append({"날짜": today, "운동": ex})
                 st.success(f"✅ '{ex}' 기록 완료!")
+else:
+    st.subheader(f"하루 루틴 - {level}")
+    for muscle in ["승모근","어깨","팔","등","배","허리","허벅지","종아리"]:
+        st.markdown(f"### {muscle}")
+        for ex, img, video, tip, stretch in exercise_data[muscle][level]:
+            completed = st.checkbox(f"{ex} - {tip} (마무리: {stretch})", key=f"{muscle}_{ex}")
+            st.image(img, width=300)
+            st.video(video)
+            if completed:
+                today = datetime.date.today()
+                if not any(log['날짜']==today and log['운동']==ex for log in st.session_state["log"]):
+                    st.session_state["log"].append({"날짜": today, "운동": ex})
+                    st.success(f"✅ '{ex}' 기록 완료!")
 
 # 주간 운동 시각화
 if st.session_state["log"]:
@@ -76,4 +91,3 @@ if st.session_state["log"]:
     weekly_count = df.groupby(["날짜"]).count()
     st.subheader("주간 운동 횟수")
     st.line_chart(weekly_count["운동"])
-
