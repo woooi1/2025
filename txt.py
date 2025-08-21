@@ -1,4 +1,7 @@
 import streamlit as st
+import random   
+
+
 
 # 페이지 설정
 st.set_page_config(page_title="운동 & 스트레칭 웹앱", layout="wide")
