@@ -78,6 +78,3 @@ st.header("🧘 운동 후 스트레칭 (자동재생)")
 for s in post_stretches:
     st.subheader(s["name"])
     st.video(f"{s['video']}?autoplay=1")
-
-pip install streamlit
-streamlit run 파일이름.py
