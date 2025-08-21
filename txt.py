@@ -1,9 +1,13 @@
 import streamlit as st
 
-
 st.set_page_config(page_title="운동 & 스트레칭 웹앱", layout="wide")
 
 # --- 데이터 ---
+pre_stretches = [
+    {"name": "목 스트레칭", "video": "https://www.youtube.com/embed/2L2lnxIcNmo"},
+    {"name": "어깨 스트레칭", "video": "https://www.youtube.com/embed/1dy0NfBf5co"},
+]
+
 workouts = {
     "초급": {
         "승모근": [{"name": "덤벨 숄더 슈러그", "video": "https://www.youtube.com/embed/2z8JmcrW-As"}],
@@ -37,9 +41,7 @@ workouts = {
     }
 }
 
-stretches = [
-    {"name": "목 스트레칭", "video": "https://www.youtube.com/embed/2L2lnxIcNmo"},
-    {"name": "어깨 스트레칭", "video": "https://www.youtube.com/embed/1dy0NfBf5co"},
+post_stretches = [
     {"name": "허리 스트레칭", "video": "https://www.youtube.com/embed/_gL8EYsg3_0"},
     {"name": "햄스트링 스트레칭", "video": "https://www.youtube.com/embed/yYasr1enKHc"}
 ]
@@ -48,26 +50,4 @@ stretches = [
 st.title("🏋️ 전신/부위별 운동 & 스트레칭 웹앱")
 
 # 난이도 선택
-level = st.radio("난이도를 선택하세요", list(workouts.keys()))
-
-# 부위 선택 (전체도 가능)
-muscle_options = list(workouts[level].keys())
-muscle = st.multiselect("부위를 선택하세요 (전체 선택 가능)", muscle_options, default=muscle_options)
-
-st.markdown("---")
-st.header(f"{level} 루틴 - 선택 부위: {', '.join(muscle)}")
-
-# 선택된 부위 운동 영상 자동재생
-for m in muscle:
-    st.subheader(m)
-    for ex in workouts[level][m]:
-        st.write(f"▶ {ex['name']}")
-        st.video(f"{ex['video']}?autoplay=1")
-
-st.markdown("---")
-st.header("🧘 스트레칭 루틴 (자동재생)")
-
-# 스트레칭 영상 자동재생
-for s in stretches:
-    st.subheader(s["name"])
-    st.video(f"{s['video']}?autoplay=1")
+level = st
