@@ -1,51 +1,57 @@
 import streamlit as st
+import random
 
-st.set_page_config(page_title="운동 & 스트레칭 웹앱 (한국 영상)", layout="wide")
-
-# 영상 데이터 (한국 유튜버 영상)
-pre_stretch = {"name": "전신 스트레칭 종결판", "video": "https://www.youtube.com/embed/oquaP1cFBqY"}
-
-workouts = {
-    "초급": {"하체(스쿼트)": {"name": "스쿼트 누구나 쉽게", "video": "https://www.youtube.com/embed/VEwqIDK2DCM"}},
-    "중급": {"하체 라이브": {"name": "하체 운동 라이브 데드-스쿼트", "video": "https://www.youtube.com/embed/RX_xS_qrxYI"}},
-    "고급": {"힙 챌린지": {"name": "힙으뜸 스쿼트 100개 챌린지", "video": "https://www.youtube.com/embed/urOSaROmTIk"}}
+# 운동 영상 데이터 (한국인 유튜버 영상으로 예시)
+exercise_videos = {
+    "하체": [
+        {"name": "스쿼트", "video": "https://www.youtube.com/watch?v=H5w0Qm4yWzA"},
+        {"name": "런지", "video": "https://www.youtube.com/watch?v=QOVaHwm-Q6U"},
+        {"name": "힙 브릿지", "video": "https://www.youtube.com/watch?v=7j3YcKu6igY"}
+    ],
+    "상체": [
+        {"name": "푸쉬업", "video": "https://www.youtube.com/watch?v=IODxDxX7oi4"},
+        {"name": "덤벨 숄더 프레스", "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"},
+        {"name": "덤벨 로우", "video": "https://www.youtube.com/watch?v=pYcpY20QaE8"}
+    ],
+    "전신": [
+        {"name": "버피 테스트", "video": "https://www.youtube.com/watch?v=qLBImHhCXSw"},
+        {"name": "마운틴 클라이머", "video": "https://www.youtube.com/watch?v=nmwgirgXLYM"},
+        {"name": "점핑잭", "video": "https://www.youtube.com/watch?v=c4DAnQ6DtF8"}
+    ],
+    "스트레칭": {
+        "전신": [
+            {"name": "전신 스트레칭", "video": "https://www.youtube.com/watch?v=5It9jFJ8P3A"}
+        ]
+    }
 }
 
-post_stretch = {"name": "매일 10분 전신 스트레칭 체조", "video": "https://www.youtube.com/embed/kB0_xQdt2ow"}
+# 난이도별 세트 설정
+levels = {
+    "초급": {"sets": 2, "time": "20초~30초"},
+    "중급": {"sets": 3, "time": "30초~40초"},
+    "고급": {"sets": 4, "time": "40초~60초"}
+}
 
-#  UI 구성
-st.title("🇰🇷 한국 영상만 모은 운동 & 스트레칭 웹앱")
+# 제목
+st.title("홈트 루틴 생성기")
 
-# --- 운동 전 스트레칭
-st.header("① 운동 전 스트레칭")
-st.subheader(pre_stretch["name"])
-st.video(pre_stretch["video"])
+# 선택 옵션
+level = st.selectbox("운동 난이도 선택", ["초급", "중급", "고급"])
+muscle = st.multiselect("운동 부위 선택", ["하체", "상체", "전신"])
 
-# --- 난이도 선택
-st.markdown("---")
-level = st.radio("② 난이도를 선택하세요", list(workouts.keys()))
+# 루틴 생성 버튼
+if st.button("루틴 생성하기"):
+    st.header(f"{level} 루틴 - 선택 부위: {', '.join(muscle)}")
 
-# --- 운동 루틴
-st.header(f"③ {level} 루틴")
-for part, info in workouts[level].items():
-    st.subheader(part)
-    st.write(f"▶ {info['name']}")
-    st.video(info["video"])
+    # 선택한 부위별 운동 랜덤 추천
+    for m in muscle:
+        exercise = random.choice(exercise_videos[m])
+        st.subheader(f"{m} 운동: {exercise['name']}")
+        st.video(exercise["video"])
+        st.write(f"세트 수: {levels[level]['sets']}세트, 시간: {levels[level]['time']}")
 
-# --- 운동 후 스트레칭
-st.markdown("---")
-st.header("④ 운동 후 스트레칭")
-st.subheader(post_stretch["name"])
-st.video(post_stretch["video"])st.header(f"{level} 루틴 - 선택 부위: {', '.join(muscle)}")
-for m in muscle:
-    st.subheader(m)
-    for ex in workouts[level][m]:
-        st.write(f"▶ {ex['name']}")
-        st.video(ex["video"])
+    # 운동 후 스트레칭 영상
+    post_stretch = exercise_videos["스트레칭"]["전신"][0]
+    st.subheader("운동 후 스트레칭")
+    st.video(post_stretch["video"])
 
-# --- 운동 후 스트레칭 ---
-st.markdown("---")
-st.header("🧘 운동 후 스트레칭")
-for s in post_stretches:
-    st.subheader(s["name"])
-    st.video(s["video"])
