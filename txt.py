@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="홈트 루틴 & 스트레칭", layout="wide")
+st.set_page_config(page_title="몸을 가꾸는 멋진 나", layout="wide")
 
 # --- 배경 이미지 ---
 st.markdown(
