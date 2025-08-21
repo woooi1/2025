@@ -50,4 +50,31 @@ post_stretches = [
 st.title("🏋️ 전신/부위별 운동 & 스트레칭 웹앱")
 
 # 난이도 선택
-level = st
+level = st.radio("난이도를 선택하세요", list(workouts.keys()))
+
+# 부위 선택 (전체 가능)
+muscle_options = list(workouts[level].keys())
+muscle = st.multiselect("부위를 선택하세요 (전체 선택 가능)", muscle_options, default=muscle_options)
+
+# --- 운동 전 스트레칭 ---
+st.markdown("---")
+st.header("🧘 운동 전 스트레칭 (자동재생)")
+for s in pre_stretches:
+    st.subheader(s["name"])
+    st.video(f"{s['video']}?autoplay=1")
+
+# --- 운동 루틴 ---
+st.markdown("---")
+st.header(f"{level} 루틴 - 선택 부위: {', '.join(muscle)}")
+for m in muscle:
+    st.subheader(m)
+    for ex in workouts[level][m]:
+        st.write(f"▶ {ex['name']}")
+        st.video(f"{ex['video']}?autoplay=1")
+
+# --- 운동 후 스트레칭 ---
+st.markdown("---")
+st.header("🧘 운동 후 스트레칭 (자동재생)")
+for s in post_stretches:
+    st.subheader(s["name"])
+    st.video(f"{s['video']}?autoplay=1")
