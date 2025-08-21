@@ -1,38 +1,72 @@
 import streamlit as st
 
-# 운동 루틴 데이터
-routines = {
-    "초급": [
-        "스쿼트 10회 × 3세트",
-        "푸시업(무릎) 8회 × 3세트",
-        "플랭크 20초 × 3세트",
-        "런지 10회 × 2세트"
-    ],
-    "중급": [
-        "스쿼트 15회 × 4세트",
-        "푸시업 12회 × 4세트",
-        "플랭크 40초 × 3세트",
-        "버피 10회 × 3세트",
-        "런지 12회 × 3세트"
-    ],
-    "고급": [
-        "점프 스쿼트 20회 × 4세트",
-        "푸시업(딥) 15회 × 4세트",
-        "플랭크 60초 × 4세트",
-        "버피 15회 × 4세트",
-        "풀업 8회 × 3세트"
-    ]
+st.set_page_config(page_title="운동 & 스트레칭 웹앱", layout="wide")
+
+# --- 데이터 ---
+workouts = {
+    "초급": {
+        "승모근": [{"name": "덤벨 숄더 슈러그", "video": "https://www.youtube.com/embed/2z8JmcrW-As"}],
+        "어깨": [{"name": "덤벨 숄더 프레스", "video": "https://www.youtube.com/embed/qEwKCR5JCog"}],
+        "팔": [{"name": "덤벨 컬", "video": "https://www.youtube.com/embed/ykJmrZ5v0Oo"}],
+        "등": [{"name": "벤트오버 로우", "video": "https://www.youtube.com/embed/vT2GjY_Umpw"}],
+        "배": [{"name": "플랭크", "video": "https://www.youtube.com/embed/pSHjTRCQxIw"}],
+        "허리": [{"name": "백 익스텐션", "video": "https://www.youtube.com/embed/Phq1_pnU8wY"}],
+        "허벅지": [{"name": "스쿼트", "video": "https://www.youtube.com/embed/YaXPRqUwItQ"}],
+        "종아리": [{"name": "카프 레이즈", "video": "https://www.youtube.com/embed/YU4_Ds6g8pA"}]
+    },
+    "중급": {
+        "승모근": [{"name": "덤벨 숄더 슈러그", "video": "https://www.youtube.com/embed/2z8JmcrW-As"}],
+        "어깨": [{"name": "푸시 프레스", "video": "https://www.youtube.com/embed/qEwKCR5JCog"}],
+        "팔": [{"name": "바벨 컬", "video": "https://www.youtube.com/embed/ykJmrZ5v0Oo"}],
+        "등": [{"name": "풀업", "video": "https://www.youtube.com/embed/eGo4IYlbE5g"}],
+        "배": [{"name": "사이드 플랭크", "video": "https://www.youtube.com/embed/K2VljzCC16g"}],
+        "허리": [{"name": "데드리프트", "video": "https://www.youtube.com/embed/ytGaGIn3SjE"}],
+        "허벅지": [{"name": "점프 스쿼트", "video": "https://www.youtube.com/embed/aclHkVaku9U"}],
+        "종아리": [{"name": "카프 레이즈", "video": "https://www.youtube.com/embed/YU4_Ds6g8pA"}]
+    },
+    "고급": {
+        "승모근": [{"name": "바벨 슈러그", "video": "https://www.youtube.com/embed/2z8JmcrW-As"}],
+        "어깨": [{"name": "아놀드 프레스", "video": "https://www.youtube.com/embed/qEwKCR5JCog"}],
+        "팔": [{"name": "클로즈 그립 푸시업", "video": "https://www.youtube.com/embed/IODxDxX7oi4"}],
+        "등": [{"name": "풀업", "video": "https://www.youtube.com/embed/eGo4IYlbE5g"}],
+        "배": [{"name": "드래곤 플래그", "video": "https://www.youtube.com/embed/6v5RzZ3Rpu0"}],
+        "허리": [{"name": "백 익스텐션", "video": "https://www.youtube.com/embed/Phq1_pnU8wY"}],
+        "허벅지": [{"name": "바벨 스쿼트", "video": "https://www.youtube.com/embed/2-LAMcpzODU"}],
+        "종아리": [{"name": "카프 레이즈", "video": "https://www.youtube.com/embed/YU4_Ds6g8pA"}]
+    }
 }
 
-# 제목
-st.title("🏋️ 전신 운동 루틴 웹앱")
-st.subheader("난이도를 선택하면 루틴이 나와요")
+stretches = [
+    {"name": "목 스트레칭", "video": "https://www.youtube.com/embed/2L2lnxIcNmo"},
+    {"name": "어깨 스트레칭", "video": "https://www.youtube.com/embed/1dy0NfBf5co"},
+    {"name": "허리 스트레칭", "video": "https://www.youtube.com/embed/_gL8EYsg3_0"},
+    {"name": "햄스트링 스트레칭", "video": "https://www.youtube.com/embed/yYasr1enKHc"}
+]
+
+# --- UI ---
+st.title("🏋️ 전신/부위별 운동 & 스트레칭 웹앱")
 
 # 난이도 선택
-level = st.radio("난이도를 선택하세요", list(routines.keys()))
+level = st.radio("난이도를 선택하세요", list(workouts.keys()))
 
-# 선택된 루틴 표시
+# 부위 선택 (전체도 가능)
+muscle_options = list(workouts[level].keys())
+muscle = st.multiselect("부위를 선택하세요 (전체 선택 가능)", muscle_options, default=muscle_options)
+
 st.markdown("---")
-st.header(f"{level} 루틴")
-for idx, ex in enumerate(routines[level], 1):
-    st.write(f"{idx}. {ex}")
+st.header(f"{level} 루틴 - 선택 부위: {', '.join(muscle)}")
+
+# 선택된 부위 운동 영상 자동재생
+for m in muscle:
+    st.subheader(m)
+    for ex in workouts[level][m]:
+        st.write(f"▶ {ex['name']}")
+        st.video(f"{ex['video']}?autoplay=1")
+
+st.markdown("---")
+st.header("🧘 스트레칭 루틴 (자동재생)")
+
+# 스트레칭 영상 자동재생
+for s in stretches:
+    st.subheader(s["name"])
+    st.video(f"{s['video']}?autoplay=1")
