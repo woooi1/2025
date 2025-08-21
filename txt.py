@@ -25,16 +25,14 @@ if not st.session_state.start_clicked:
         <div style='display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;'>
             <h1 style='color: #ff4b4b; font-size: 60px;'>🏋️‍♀️ 홈트 루틴 & 스트레칭</h1>
             <h3 style='color: #2a2a2a; font-size: 28px; text-align: center; margin-top: 20px;'>{quote_today}</h3>
-            <div style='margin-top: auto;'>
-                <a href="#" onclick="window.location.reload();" 
-                   style='background-color:#ff4b4b;color:white;padding:20px 60px;font-size:32px;border-radius:15px;text-decoration:none;display:inline-block;margin-bottom:50px;'>
-                   운동 시작 💪
-                </a>
-            </div>
         </div>
         """,
         unsafe_allow_html=True
     )
+    st.markdown("---")
+    # 버튼 클릭 시 세션 상태 변경
+    if st.button("운동 시작 💪", key="start_button"):
+        st.session_state.start_clicked = True
 
 # --- 운동 루틴 화면 ---
 if st.session_state.start_clicked:
