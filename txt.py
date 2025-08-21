@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 st.set_page_config(page_title="운동 & 스트레칭 웹앱", layout="wide")
 
 # --- 데이터 ---
