@@ -30,38 +30,47 @@ if not st.session_state.start_clicked:
         unsafe_allow_html=True
     )
 
-    # 화면 하단 중앙 버튼
+    # 운동 시작 버튼 (중앙 하단, 크게)
+    if st.button("운동 시작 💪", key="start_button"):
+        st.session_state.start_clicked = True
+
     st.markdown(
         """
-        <div style='position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);'>
-            <button style='background-color:#ff4b4b;color:white;padding:25px 80px;font-size:36px;border-radius:20px;border:none;cursor:pointer;' 
-                    onclick="window.parent.streamlitStreamlitRun = true;">운동 시작 💪</button>
-        </div>
+        <style>
+        div.stButton > button:first-child {
+            width: 300px;
+            height: 80px;
+            font-size: 30px;
+            background-color: #ff4b4b;
+            color: white;
+            border-radius: 20px;
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        </style>
         """,
         unsafe_allow_html=True
     )
-
-    # Streamlit 버튼으로도 세션 상태 제어
-    if st.button("운동 시작 💪 (클릭 안되면 여기!)"):
-        st.session_state.start_clicked = True
 
 # --- 운동 루틴 화면 ---
 if st.session_state.start_clicked:
     st.title("🏋️‍♀️ 오늘의 루틴")
 
     # --- 데이터 ---
-    pre_stretch = {"name": "전신 스트레칭 (운동 전)", "video": "https://youtu.be/ahbAnkN4KJ0?si=8bpv4KW5JuSP4oZ1"}
-    post_stretch = {"name": "전신 스트레칭 (운동 후)", "video": "https://youtu.be/xW3JI2eI7nM?si=6zeKT1a6egU-ox_H"}
+    pre_stretch = {"name": "전신 스트레칭 (운동 전)", "video": "https://www.youtube.com/embed/ahbAnkN4KJ0"}
+    post_stretch = {"name": "전신 스트레칭 (운동 후)", "video": "https://www.youtube.com/embed/xW3JI2eI7nM"}
 
     exercise_videos = {
         "전신": [
-            {"name": "귀찮은 날, 전신 폭파", "video": "https://youtu.be/F-Jd4kI6rdM?si=2kNyTBbgKWKQIWs4"},
+            {"name": "귀찮은 날, 전신 폭파", "video": "https://www.youtube.com/embed/F-Jd4kI6rdM"},
         ],
         "상체": [
-            {"name": "상체 전체 폭파", "video": "https://youtu.be/54tTYO-vU2E?si=MomGozGJ9UT2K7hP"},
+            {"name": "상체 전체 폭파", "video": "https://www.youtube.com/embed/54tTYO-vU2E"},
         ],
         "하체": [
-            {"name": "하체 전체 폭파", "video": "https://youtu.be/NDsjmxTROEo?si=Hybxtgpxu1QfIBhR"},
+            {"name": "하체 전체 폭파", "video": "https://www.youtube.com/embed/NDsjmxTROEo"},
         ]
     }
 
@@ -88,3 +97,4 @@ if st.session_state.start_clicked:
     st.header("🧘 운동 후 스트레칭")
     st.subheader(post_stretch["name"])
     st.video(f"{post_stretch['video']}?autoplay=1")
+
