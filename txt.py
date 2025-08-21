@@ -1,26 +1,33 @@
 import streamlit as st
-import random
+
+# 페이지 설정
+st.set_page_config(page_title="운동 & 스트레칭 웹앱", layout="wide")
 
 # 운동 영상 데이터 (한국인 유튜버 영상으로 예시)
 exercise_videos = {
-    "하체": [
-        {"name": "스쿼트", "video": "https://www.youtube.com/watch?v=H5w0Qm4yWzA"},
-        {"name": "런지", "video": "https://www.youtube.com/watch?v=QOVaHwm-Q6U"},
-        {"name": "힙 브릿지", "video": "https://www.youtube.com/watch?v=7j3YcKu6igY"}
+    "어깨": [
+        {"name": "덤벨 숄더 프레스", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"},
+        {"name": "사이드 레터럴 레이즈", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"}
     ],
-    "상체": [
-        {"name": "푸쉬업", "video": "https://www.youtube.com/watch?v=IODxDxX7oi4"},
-        {"name": "덤벨 숄더 프레스", "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"},
-        {"name": "덤벨 로우", "video": "https://www.youtube.com/watch?v=pYcpY20QaE8"}
+    "배": [
+        {"name": "플랭크", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"},
+        {"name": "사이드 플랭크", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"}
     ],
-    "전신": [
-        {"name": "버피 테스트", "video": "https://www.youtube.com/watch?v=qLBImHhCXSw"},
-        {"name": "마운틴 클라이머", "video": "https://www.youtube.com/watch?v=nmwgirgXLYM"},
-        {"name": "점핑잭", "video": "https://www.youtube.com/watch?v=c4DAnQ6DtF8"}
+    "팔": [
+        {"name": "바벨 컬", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"},
+        {"name": "덤벨 컬", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"}
+    ],
+    "허벅지": [
+        {"name": "스쿼트", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"},
+        {"name": "런지", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"}
+    ],
+    "종아리": [
+        {"name": "카프 레이즈", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"},
+        {"name": "시티드 카프 레이즈", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"}
     ],
     "스트레칭": {
         "전신": [
-            {"name": "전신 스트레칭", "video": "https://www.youtube.com/watch?v=5It9jFJ8P3A"}
+            {"name": "전신 스트레칭", "video": "https://www.youtube.com/watch?v=1vlyd6pG4b4"}
         ]
     }
 }
@@ -37,7 +44,7 @@ st.title("홈트 루틴 생성기")
 
 # 선택 옵션
 level = st.selectbox("운동 난이도 선택", ["초급", "중급", "고급"])
-muscle = st.multiselect("운동 부위 선택", ["하체", "상체", "전신"])
+muscle = st.multiselect("운동 부위 선택", ["어깨", "배", "팔", "허벅지", "종아리"])
 
 # 루틴 생성 버튼
 if st.button("루틴 생성하기"):
