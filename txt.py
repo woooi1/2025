@@ -29,9 +29,20 @@ if not st.session_state.start_clicked:
         """,
         unsafe_allow_html=True
     )
-    st.markdown("---")
-    # 버튼 클릭 시 세션 상태 변경
-    if st.button("운동 시작 💪", key="start_button"):
+
+    # 화면 하단 중앙 버튼
+    st.markdown(
+        """
+        <div style='position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);'>
+            <button style='background-color:#ff4b4b;color:white;padding:25px 80px;font-size:36px;border-radius:20px;border:none;cursor:pointer;' 
+                    onclick="window.parent.streamlitStreamlitRun = true;">운동 시작 💪</button>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Streamlit 버튼으로도 세션 상태 제어
+    if st.button("운동 시작 💪 (클릭 안되면 여기!)"):
         st.session_state.start_clicked = True
 
 # --- 운동 루틴 화면 ---
