@@ -64,3 +64,14 @@ st.markdown("---")
 st.header("🧘 운동 후 스트레칭")
 st.subheader(post_stretch["name"])
 st.video(f"{post_stretch['video']}?autoplay=1")
+
+# --- 출처 ---
+st.markdown("---")
+st.markdown(
+    """
+    <div style='text-align: center; color: gray; font-size: 14px; margin-top: 20px;'>
+        출처: 전신/상체/하체 운동 - 땅끄부부 | 운동 전 스트레칭 - SOMPIT | 운동 후 스트레칭 - 다노
+    </div>
+    """,
+    unsafe_allow_html=True
+)
