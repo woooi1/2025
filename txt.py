@@ -15,11 +15,11 @@ motivational_quotes = [
 quote_today = random.choice(motivational_quotes)
 
 # --- 세션 상태 초기화 ---
-if "start_clicked" not in st.session_state:
-    st.session_state.start_clicked = False
+if "show_workout" not in st.session_state:
+    st.session_state.show_workout = False
 
 # --- 표지 화면 ---
-if not st.session_state.start_clicked:
+if not st.session_state.show_workout:
     st.markdown(
         f"""
         <div style='display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;'>
@@ -31,8 +31,8 @@ if not st.session_state.start_clicked:
     )
 
     # 운동 시작 버튼 (중앙 하단, 크게)
-    if st.button("운동 시작 💪", key="start_button"):
-        st.session_state.start_clicked = True
+    if st.button("운동 시작 💪"):
+        st.session_state.show_workout = True
 
     st.markdown(
         """
@@ -55,7 +55,7 @@ if not st.session_state.start_clicked:
     )
 
 # --- 운동 루틴 화면 ---
-if st.session_state.start_clicked:
+if st.session_state.show_workout:
     st.title("🏋️‍♀️ 오늘의 루틴")
 
     # --- 데이터 ---
@@ -97,4 +97,3 @@ if st.session_state.start_clicked:
     st.header("🧘 운동 후 스트레칭")
     st.subheader(post_stretch["name"])
     st.video(f"{post_stretch['video']}?autoplay=1")
-
