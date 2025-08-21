@@ -14,56 +14,65 @@ motivational_quotes = [
 
 quote_today = random.choice(motivational_quotes)
 
-# --- 웹 표지 ---
-st.markdown(
-    """
-    <div style='text-align: center; padding: 40px; background-color: #f0f8ff; border-radius: 15px;'>
-        <h1 style='color: #ff4b4b;'>🏋️‍♀️ 홈트 루틴 & 스트레칭</h1>
-        <h3 style='color: #2a2a2a;'>{}</h3>
-    </div>
-    """.format(quote_today),
-    unsafe_allow_html=True
-)
+# --- 세션 상태 초기화 ---
+if "start_clicked" not in st.session_state:
+    st.session_state.start_clicked = False
 
-st.markdown("---")
+# --- 표지 화면 ---
+if not st.session_state.start_clicked:
+    st.markdown(
+        f"""
+        <div style='text-align: center; padding: 50px; background-color: #f0f8ff; border-radius: 20px;'>
+            <h1 style='color: #ff4b4b;'>🏋️‍♀️ 홈트 루틴 & 스트레칭</h1>
+            <h3 style='color: #2a2a2a;'>{quote_today}</h3>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.markdown("---")
+    if st.button("운동 시작 💪"):
+        st.session_state.start_clicked = True
 
-# --- 기존 운동 앱 코드 (전신/상체/하체, 운동 전/후 스트레칭) ---
-pre_stretch = {"name": "전신 스트레칭 (운동 전)", "video": "https://youtu.be/ahbAnkN4KJ0?si=8bpv4KW5JuSP4oZ1"}
-post_stretch = {"name": "전신 스트레칭 (운동 후)", "video": "https://youtu.be/xW3JI2eI7nM?si=6zeKT1a6egU-ox_H"}
+# --- 운동 루틴 화면 ---
+if st.session_state.start_clicked:
+    st.title("🏋️‍♀️ 오늘의 루틴")
 
-exercise_videos = {
-    "전신": [
-        {"name": "귀찮은 날, 전신 폭파", "video": "https://youtu.be/F-Jd4kI6rdM?si=2kNyTBbgKWKQIWs4"},
-    ],
-    "상체": [
-        {"name": "상체 전체 폭파", "video": "https://youtu.be/54tTYO-vU2E?si=MomGozGJ9UT2K7hP"},
-    ],
-    "하체": [
-        {"name": "하체 전체 폭파", "video": "https://youtu.be/NDsjmxTROEo?si=Hybxtgpxu1QfIBhR"},
-    ]
-}
+    # --- 데이터 ---
+    pre_stretch = {"name": "전신 스트레칭 (운동 전)", "video": "https://youtu.be/ahbAnkN4KJ0?si=8bpv4KW5JuSP4oZ1"}
+    post_stretch = {"name": "전신 스트레칭 (운동 후)", "video": "https://youtu.be/xW3JI2eI7nM?si=6zeKT1a6egU-ox_H"}
 
-# 운동 부위 선택
-muscle = st.multiselect("운동 부위 선택", ["전신", "상체", "하체"], default=["전신"])
+    exercise_videos = {
+        "전신": [
+            {"name": "귀찮은 날, 전신 폭파", "video": "https://youtu.be/F-Jd4kI6rdM?si=2kNyTBbgKWKQIWs4"},
+        ],
+        "상체": [
+            {"name": "상체 전체 폭파", "video": "https://youtu.be/54tTYO-vU2E?si=MomGozGJ9UT2K7hP"},
+        ],
+        "하체": [
+            {"name": "하체 전체 폭파", "video": "https://youtu.be/NDsjmxTROEo?si=Hybxtgpxu1QfIBhR"},
+        ]
+    }
 
-# 운동 전 스트레칭
-st.markdown("---")
-st.header("🧘 운동 전 스트레칭")
-st.subheader(pre_stretch["name"])
-st.video(f"{pre_stretch['video']}?autoplay=1")
+    # 운동 부위 선택
+    muscle = st.multiselect("운동 부위 선택", ["전신", "상체", "하체"], default=["전신"])
 
-# 운동 루틴
-st.markdown("---")
-st.header("루틴 - 선택 부위: " + ", ".join(muscle))
-import random
-for m in muscle:
-    st.subheader(f"{m} 운동")
-    exercise = random.choice(exercise_videos[m])
-    st.write(f"▶ {exercise['name']}")
-    st.video(f"{exercise['video']}?autoplay=1")
+    # --- 운동 전 스트레칭 ---
+    st.markdown("---")
+    st.header("🧘 운동 전 스트레칭")
+    st.subheader(pre_stretch["name"])
+    st.video(f"{pre_stretch['video']}?autoplay=1")
 
-# 운동 후 스트레칭
-st.markdown("---")
-st.header("🧘 운동 후 스트레칭")
-st.subheader(post_stretch["name"])
-st.video(f"{post_stretch['video']}?autoplay=1")
+    # --- 운동 루틴 ---
+    st.markdown("---")
+    st.header("루틴 - 선택 부위: " + ", ".join(muscle))
+    for m in muscle:
+        st.subheader(f"{m} 운동")
+        exercise = random.choice(exercise_videos[m])
+        st.write(f"▶ {exercise['name']}")
+        st.video(f"{exercise['video']}?autoplay=1")
+
+    # --- 운동 후 스트레칭 ---
+    st.markdown("---")
+    st.header("🧘 운동 후 스트레칭")
+    st.subheader(post_stretch["name"])
+    st.video(f"{post_stretch['video']}?autoplay=1")
